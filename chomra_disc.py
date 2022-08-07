@@ -12,7 +12,7 @@ def seperate_h_s(data, sr):
 
 def main():
     data, sr = librosa.load('flume-hollow.mp3')
-
+    print(data)
     data_h, data_p = seperate_h_s(data, sr)
 
     chroma = librosa.feature.chroma_cqt(y=data_h, sr=sr)
@@ -22,6 +22,7 @@ def main():
     plt.title('Chromagram')
     plt.colorbar()
     plt.figure(figsize=(20,8))
+    plt.show() 
 
 
 main()
