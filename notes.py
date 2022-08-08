@@ -60,13 +60,6 @@ librosa.display.specshow(db_spec_p, y_axis='hz', x_axis='s', sr=sr)
 
 # %%
 
-chroma = librosa.feature.chroma_cqt(y=data_harm, sr=sr)
-plt.figure(figsize=(18,5))
-
-librosa.display.specshow(chroma, sr=sr, x_axis='time', y_axis='chroma', vmin=0, vmax=1)
-plt.title('Chromagram')
-plt.colorbar()
-plt.figure(figsize=(20,8))
 
 # %%
 

@@ -10,9 +10,7 @@ import os
 from PIL import Image
 import cv2
 
-"""
-Image
-"""
+
 def song_length_to_frames(y, sr, frames):
 
     # Theory is:
@@ -24,36 +22,23 @@ def song_length_to_frames(y, sr, frames):
     frames = duration * 60
     return frames
 
-def create_image():
+def linear_scale_factor(frames, max_val, min):
+    return max_val / frames
 
-    img = Image.new('RGB', (300, 200), (255, 0, 0))
-    img.show()
+def get_linear_color(frame, scale):
+    return frame * scale
 
-def get_linear_color(frame):
-    m = 0.018085106
-    x = frame
-
-    return x * m
-
-def get_frames(frames):
-
+def get_frames(frames, scale):
     video_dir = os.path.join('video')
 
-    frames_list = []
+    frames_list = [] # Store all new frames in list.
 
     for i in range(0, frames):
-        # print('frame: ', i, ' r: ', get_linear_color(i))
-        get_linear_color(frame=i)
-        frame = Image.new('RGB', (300, 200), (int(get_linear_color(i)), 0, 0))
-        name = str(i) + '.jpg'
-        frame.save(os.path.join(video_dir, name))
-        frames_list.append(name)
+        get_linear_color() 
 
-    return frames_list
-
-def write_frames(frames):
-
-    frames = get_frames(frames=frames)
+def write_frames(frames, scale):
+    # Create the frames:
+    frames = get_frames(frames=frames, scale=scale)
     img_arr = []
     for filename in frames:
         img = cv2.imread(os.path.join('video', filename))
@@ -61,28 +46,31 @@ def write_frames(frames):
         size = (width, height)
         img_arr.append(img)
 
+    
     out = cv2.VideoWriter('project.avi',cv2.VideoWriter_fourcc(*'DIVX'), 60, size)
     for i in range(len(img_arr)):
         out.write(img_arr[i])
     out.release()
 
-    return '' 
+    print('done')
 
+    return None
 
 def main():
-    # Read the directory:
-    music_dir = os.path.join('music')
-    # songs = os.listdir(music_dir)
 
-    # Import the song:
+    # Get music directory:
+    music_dir = os.path.join('music')
+
+    # Import the song: 
     y, sr = librosa.load(os.path.join(music_dir, 'flume-hollow.mp3'))
 
     # Get the frames needed:
-    frames = song_length_to_frames(y=y, sr=sr, frames=60)
+    frames = song_length_to_frames(y, sr, frames)
 
-    print('frames for 60fps: ', frames)
+    # Figure out scale factor:
+    scale = linear_scale_factor(frames=frames, max_val=255, min=None)
 
-    write_frames(frames=14100)
+    # Now we need to write the frames:
+    write_frames(frames=frames)
 
-
-main()
+     
