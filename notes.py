@@ -1,5 +1,6 @@
 #%%
 
+from turtle import st
 import librosa
 
 #%%
@@ -71,3 +72,20 @@ print(chroma)
 # %%
 # https://medium.com/@patrickbfuller/librosa-a-python-audio-libary-60014eeaccfb 
 # %%
+
+
+
+from gradient import Gradient
+
+g = Gradient(startColor=(76, 163, 217), endColor=(205, 255, 199), isVerticle=True, distance=200)
+
+g.cacl_increase()
+# %%
+print(g.increaseOrDecrease)
+# %%
+g.obtainM()
+print(g.m)
+# %%
+
+
+

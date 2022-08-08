@@ -1,28 +1,50 @@
-from PIL import Image
+class Gradient:
+    def __init__(self, startColor: tuple, endColor: tuple, isVerticle: bool, distance: int) -> None:
+        self.startColor = startColor
+        self.endColor = endColor
+        self.isVerticle = isVerticle
+        self.distance = distance
+        self.m = None
+        self.increaseOrDecrease = [False, False, False] # In RGB, decides if the value increases or not
 
-def red_change(row):
-    m = 1.275
-    return row * m
+    def obtainM(self): 
+        self.m = 255 / self.distance
 
-def blue_change(row): 
-    m = -1.275
-    c = 255
-    return (row * m) + 255
+    def cacl_increase(self):
+        
+        # THIS IS REPEATING CODE!!! LOOP IT
+        # Red:
+        if (self.startColor[0] < self.endColor[1]):
+            self.increaseOrDecrease[0] = True
+        else:
+            self.increaseOrDecrease[0] = False
 
-def main():
+        # Green:
+        if (self.startColor[1] < self.endColor[1]):
+            self.increaseOrDecrease[1] = True
+        else:
+            self.increaseOrDecrease[1] = False
 
-    img = Image.new('RGB', (300, 200), (0, 0, 0))
+        # Blue:
+        if (self.startColor[2] < self.endColor[2]):
+            self.increaseOrDecrease[2] = True
+        else:
+            self.increaseOrDecrease[2] = False
+    
+    def linear_normal(self, x):
+        return x * self.m
 
-    # width, height = img.size()
-    height = 200
-    width = 300
-    for y in range(0, height):
-        # Need to get blue and red values for the row:
-        blue = blue_change(row=y)
-        red = red_change(row=y)
-        for x in range(0, width):
-            img.putpixel((x, y), (int(red), int(blue), int(blue)))
+    def linear_inverse(self, x):
+        c = 255
+        return (x * -(self.m)) + c
 
-    img.show()
+    def calculate_color(self, x_coord: int, y_coord: int):
+        rgb = []
+        
+        for x in self.increaseOrDecrease:
+            if (x == True):
+                rgb.append(int(self.linear_normal(x=x_coord)))
+            else:
+                rgb.append(int(self.linear_inverse(x=x_coord)))
 
-main()
+        return tuple(rgb)
