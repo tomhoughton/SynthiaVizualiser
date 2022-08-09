@@ -8,34 +8,38 @@ class Gradient:
         self.increaseOrDecrease = [False, False, False] # In RGB, decides if the value increases or not
 
     def obtainM(self): 
-        self.m = 255 / self.distance
+        if (self.distance == 0):
+            self.m = 255 / (self.distance + 1)
+        else:
+            self.m = 255 / self.distance
+            
 
     def cacl_increase(self):
         
-        # # THIS IS REPEATING CODE!!! LOOP IT
-        # # Red:
-        # if (self.startColor[0] < self.endColor[1]):
-        #     self.increaseOrDecrease[0] = True
-        # else:
-        #     self.increaseOrDecrease[0] = False
+        # THIS IS REPEATING CODE!!! LOOP IT
+        # Red:
+        if (self.startColor[0] < self.endColor[1]):
+            self.increaseOrDecrease[0] = True
+        else:
+            self.increaseOrDecrease[0] = False
 
-        # # Green:
-        # if (self.startColor[1] < self.endColor[1]):
-        #     self.increaseOrDecrease[1] = True
-        # else:
-        #     self.increaseOrDecrease[1] = False
+        # Green:
+        if (self.startColor[1] < self.endColor[1]):
+            self.increaseOrDecrease[1] = True
+        else:
+            self.increaseOrDecrease[1] = False
 
-        # # Blue:
-        # if (self.startColor[2] < self.endColor[2]):
-        #     self.increaseOrDecrease[2] = True
-        # else:
-        #     self.increaseOrDecrease[2] = False
+        # Blue:
+        if (self.startColor[2] < self.endColor[2]):
+            self.increaseOrDecrease[2] = True
+        else:
+            self.increaseOrDecrease[2] = False
 
-        for i, val in enumerate(self.increaseOrDecrease):
-            if (self.startColor[i] < self.endColor[i]):
-                self.increaseOrDecrease[i] = True
-            else:
-                self.increaseOrDecrease[i] = False
+        # for i, val in enumerate(self.increaseOrDecrease):
+        #     if (self.startColor[i] < self.endColor[i]):
+        #         self.increaseOrDecrease[i] = True
+        #     else:
+        #         self.increaseOrDecrease[i] = False
 
 
 
@@ -56,4 +60,4 @@ class Gradient:
             else:
                 rgb.append(int(self.linear_inverse(x=x_coord)))
 
-        return tuple(rgb)
+        return rgb

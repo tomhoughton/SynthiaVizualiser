@@ -1,3 +1,4 @@
+from calendar import c
 from PIL import Image
 from gradient import Gradient
 
@@ -26,6 +27,8 @@ def main():
         # Need to get blue and red values for the row:
         for x in range(0, width):
             color = g.calculate_color(x_coord=y, y_coord=0)
+            print('COlor#)')
+            print(color)
             img.putpixel((x, y), color)
 
     img.show()

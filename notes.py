@@ -4,7 +4,7 @@ from turtle import st
 import librosa
 
 #%%
-data, sr = librosa.load('flume-hollow.mp3')
+data, sr = librosa.load('./music/flume-hollow.mp3')
 
 print('Data Shape: ', data.shape)
 
@@ -22,7 +22,33 @@ plt.show()
 
 # %%
 
-print(data)
+print(sr)
+
+#%%
+
+y_8k = librosa.resample(data, orig_sr=sr, target_sr=60)
+
+print(len(data))
+
+#%%
+
+sr / 60
+
+# So every 367 frames
+
+
+#%%
+for i in y_8k:
+    print(int(i))
+
+#%%
+import numpy as np
+data.max()
+data.min()
+#%%
+
+plt.plot(y_8k)
+plt.show()
 
 # %%
 import librosa.display

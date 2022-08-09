@@ -55,4 +55,13 @@ class Circle:
         # draw = PIL.ImageDraw.Draw(circle_graph)
         p = self.create_circle_outline()
         return p
+
+    def get_circles(self):
+        circles = []
+        for r in range(0, self.radius):
+            new_c = Circle(r)
+            circle_points = new_c.get_circle(50, 50)
+            circles.append(circle_points)
+
+        return circles
          
