@@ -44,6 +44,8 @@ for i in y_8k:
 #%%
 import numpy as np
 data.max()
+
+#%%
 data.min()
 #%%
 
@@ -113,5 +115,19 @@ g.obtainM()
 print(g.m)
 # %%
 
+import numpy as np
+
+# %%
+
+def y(x):
+    h = 58.1392623
+    c = 0
+    b = 1.1
+
+    return (b**(-x + h)) + c
 
 
+
+# %%
+print(int(y(0)))
+# %%
