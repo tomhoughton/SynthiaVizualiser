@@ -124,6 +124,17 @@ class Visualise:
             
 
     def animate_val(self, curr_RGB, new_x):
+        """Logic to change an R/G/B value over time.
+
+        Args:
+            curr_RGB (int): _description_
+            new_x (int): the sample value.
+
+        Returns:
+            int: returned R/G/B value. 
+        """
+
+
         new_RGB = self.exponential_RGB(x=new_x)
 
         if (new_RGB > curr_RGB):
@@ -133,13 +144,27 @@ class Visualise:
 
 
     def exponential_RGB(self, x):
-            h = 58.1392623
-            c = 0
-            b = 1.1
-            #return (b**(-x + h)) + c # Inverse/decay
-            return (b**(x + h)) + c
+        """Exponential function to determine value in range of y=0-255.
+
+        Args:
+            x (int): x axis (-124 - 0).
+
+        Returns:
+            int: y axis (0-255)
+        """
+        h = 58.1392623
+        c = 0
+        b = 1.1
+        #return (b**(-x + h)) + c # Inverse/decay
+        return (b**(x + h)) + c
 
     def create_frame(self):
+        """Create a new Image Frame and Draw.
+
+        Returns:
+            frame: image frame
+            draw: image draw
+        """
         frame = Image.new('RGB', (300, 300), (0, 0, 0))
         draw = ImageDraw.Draw(frame)
 
@@ -147,12 +172,22 @@ class Visualise:
 
             
     def handle_progress(self, curr_frame):
+        """Handles render progress.
+
+        Args:
+            curr_frame (int): frame index
+        """
         self.clear_console()
         print('Curr Frame: ', curr_frame, ' | ', str((curr_frame / self.frame_amount) * 100), '%')
 
 
 
     def clear_console(self):
+        """Clears the console.
+
+        Returns:
+            None: nothing
+        """
         clear = lambda: os.system('clear')
         clear()
         return None
