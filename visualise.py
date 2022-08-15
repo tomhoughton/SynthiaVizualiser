@@ -56,8 +56,17 @@ class Visualise:
             return False
         
     def create_frames(self,frames, data):
+        """This function creates all individual frames for the visuals and stores in the video directory.
 
-        sample_index = 0
+        Args:
+            frames (int): the amount of frames.
+            data ([int]): The audio data
+
+        Returns:
+            bool: confimation
+        """
+
+        sample_index = 0 # Index to access per frame.
         x = 0
 
         # Create and save the necesarry frames:
@@ -78,12 +87,17 @@ class Visualise:
             g.obtainM()
 
             # Animate a Value:
+            # Obtain a new green value:
             green = self.animate_val(curr_RGB=x, new_x=data[sample_index])
+            x = green # Re-instante the current RGB value.
 
             # Loop through the circles to draw the gradient circle:
             for r, circle in enumerate(circles):
+
+                # Calculate of value of the circles ring (layer).
                 color = g.calculate_color(x_coord=r, y_coord=0)
 
+                # Check to ensure the sample index isn't greater than total samples:
                 if (sample_index > len(data)):
                     sample_index = len(data) - 1
 
