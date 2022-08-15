@@ -10,14 +10,21 @@ import cv2
 from PIL import Image, ImageDraw
 from circle import Circle
 from gradient import Gradient
+from statistics import Stats
 
 class Visualise:
     def __init__(self, frame_amount, data) -> None:
         
-        self.frame_amount = frame_amount
-        self.data = data
-        self.export_path = os.path.join('video')
-        self.frames = []
+        self.frame_amount = frame_amount # Stores the amount of frames needed.
+        self.data = data # Stores the data of the sone (typically the scaled data).
+        self.export_path = os.path.join('video') # The path to export the video to.
+        self.frames = [] # The frame addresses.
+
+        # Statistics:
+        # Smooth colour value.
+        # self.stats = Stats()
+        self.smooth_colour_values = []
+        self.scaled_sample_value_at_color = []
 
         pass
 
@@ -50,7 +57,7 @@ class Visualise:
             # Release the video:
             out.release()
 
-            return True
+            return self.smooth_colour_values, self.scaled_sample_value_at_color
         else:
             print('Must create new frames first')
             return False
@@ -90,6 +97,11 @@ class Visualise:
             # Obtain a new green value:
             green = self.animate_val(curr_RGB=x, new_x=data[sample_index])
             x = green # Re-instante the current RGB value.
+            
+            # Add to statistics values:
+        
+            self.smooth_colour_values.append(green)
+            self.scaled_sample_value_at_color.append(data[i])
 
             # Loop through the circles to draw the gradient circle:
             for r, circle in enumerate(circles):

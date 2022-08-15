@@ -131,3 +131,15 @@ def y(x):
 # %%
 print(int(y(0)))
 # %%
+
+import matplotlib
+import matplotlib.pyplot as plt
+
+a = [1, 2, 5, 6, 2, 5]
+b = [3, 7, 3, 1, 8, 2]
+
+plt.plot(a)
+plt.plot(b, color='green')
+plt.show()
+
+# %%
