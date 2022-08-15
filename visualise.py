@@ -164,6 +164,11 @@ class Visualise:
         Returns:
             int: y axis (0-255)
         """
+
+        """ 
+        TODO: Improve this graph and function to make the curve steeper.
+        """
+
         h = 58.1392623
         c = 0
         b = 1.1
