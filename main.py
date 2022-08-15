@@ -20,8 +20,6 @@ Global Stat variables.
 
 """
 
-
-
 """
 Math Stuff
 """
@@ -186,7 +184,7 @@ def main():
     scaled_data = np.array(scale_data(i_data=y, n_max=0, n_min=-124, c_min=y.min(), c_max=y.max()))
 
     # print('frames for 60fps: ', frames) 
-
+    input('...')
     write_frames(frames=14100, resampled=scaled_data, increase_count=intensity_increase_count, increase_val=intensity_increase_val)
     print('End Stats')
     print("--- %s seconds ---" % (time.time() - start_time))
