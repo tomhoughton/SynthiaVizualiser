@@ -1,6 +1,9 @@
 """ Imports """
 import os
+from turtle import color
 import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 
 # My imports:
 from gradient import Gradient
@@ -45,11 +48,16 @@ def main():
     visualise = Visualise(frame_amount=my_song.frame_amount, data=my_song.scaled_data)
 
     # Firstly we need to create all individual frames:
+
+    """ 
+    How can we go about creating the statistics:
+    """
     visualise.create_frames(visualise.frame_amount, my_song.scaled_data)
-    visualise.write_video()
+    smooth_val, song_val = visualise.write_video()
+    
+    plt.plot(smooth_val, color='green')
+    plt.plot(song_val, color='red')
+    plt.show()
+    
 
-
-
-
-        
 main()
