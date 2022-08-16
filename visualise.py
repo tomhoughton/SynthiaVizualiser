@@ -6,17 +6,20 @@ What will this do?
 
 import os
 from random import sample
+from turtle import circle
 import cv2
 from PIL import Image, ImageDraw
 from circle import Circle
 from gradient import Gradient
 from statistics import Stats
+from layer import Layer
 
 class Visualise:
-    def __init__(self, frame_amount, data) -> None:
+    def __init__(self, frame_amount, data, original_song) -> None:
         
         self.frame_amount = frame_amount # Stores the amount of frames needed.
         self.data = data # Stores the data of the sone (typically the scaled data).
+        self.original_song = original_song # Store the original data just in case.
         self.export_path = os.path.join('video') # The path to export the video to.
         self.frames = [] # The frame addresses.
 
@@ -61,7 +64,44 @@ class Visualise:
         else:
             print('Must create new frames first')
             return False
+
+    def create_layers(self, data):
+        """
+        Each layer must have the following properties:
+        - 2D Array of points.
+        - A Gradient.
+
+        """
+        # Background Layer:
+        # This layer will change colours based on audio.
+        background_gradient = Gradient(
+            startColor=(32, 121, 122), 
+            endColor=(62, 198, 199), 
+            isVerticle=False, 
+            distance=255
+        ) # NOTE: We are just animating a solid colour here in distance of 255.
         
+        background_layer = Layer(
+            gradient=background_gradient,
+            draw_points=None,
+            type='back',
+            size=300
+        )
+
+        # Circle Layer:
+        # This layer will display a circle, where the G value changes based on audio.
+        # Create the gradient:
+        circle_gradient = Gradient(startColor=(255, 0, 26), endColor=(205, 0, 255), isVerticle=True, distance=(60))
+        circle_gradient.cacl_increase()
+        circle_gradient.obtainM()
+
+        # Create the frame:
+        frame, draw = self.create_frame()
+        frame_size = 300 
+
+       
+        return background_layer
+
     def create_frames(self,frames, data):
         """This function creates all individual frames for the visuals and stores in the video directory.
 
@@ -76,13 +116,22 @@ class Visualise:
         sample_index = 0 # Index to access per frame.
         x = 0
 
+        # Layers List:
+        layers_amount = 2
+        layers = self.create_layers(data=None)
+
         # Create and save the necesarry frames:
         for i in range(0, frames): 
             self.handle_progress(curr_frame=i)
 
             # Create a frame:
-            frame, draw = self.create_frame()
+            frame = self.create_frame()
             frame_size = 300 # Holder: TODO: Make this define the size of the frame.
+            
+
+
+            """
+            
 
             # Create a circle:
             c = Circle(radius=60)
@@ -121,6 +170,8 @@ class Visualise:
                 for p in circle:
                     draw.point((int(frame_size/2+p[0]), int(frame_size/2+p[1])), t_color)
 
+            """
+
             # Save the frame and append to the list: 
             name = str(i) + '.jpg'
             frame.save(os.path.join(self.export_path, name))
@@ -134,7 +185,6 @@ class Visualise:
 
         return True
             
-
     def animate_val(self, curr_RGB, new_x):
         """Logic to change an R/G/B value over time.
 
@@ -186,8 +236,7 @@ class Visualise:
         draw = ImageDraw.Draw(frame)
 
         return frame, draw
-
-            
+   
     def handle_progress(self, curr_frame):
         """Handles render progress.
 
@@ -196,8 +245,6 @@ class Visualise:
         """
         self.clear_console()
         print('Curr Frame: ', curr_frame, ' | ', str((curr_frame / self.frame_amount) * 100), '%')
-
-
 
     def clear_console(self):
         """Clears the console.

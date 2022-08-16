@@ -19,14 +19,14 @@ def main():
     height = 200
     width = 300
 
-    g = Gradient(startColor=(255, 0, 217), endColor=(205, 255, 199), isVerticle=True, distance=200)
+    g = Gradient(startColor=(255, 0, 0), endColor=(0, 255, 0), isVerticle=True, distance=200)
     g.cacl_increase()
     g.obtainM()
 
     for y in range(0, height):
         # Need to get blue and red values for the row:
         for x in range(0, width):
-            color = g.calculate_color(x_coord=y, y_coord=0)
+            color = tuple(g.calculate_color(x_coord=y, y_coord=0))
             print('COlor#)')
             print(color)
             img.putpixel((x, y), color)

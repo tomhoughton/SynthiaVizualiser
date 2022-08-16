@@ -18,7 +18,7 @@ class Gradient:
         
         # THIS IS REPEATING CODE!!! LOOP IT
         # Red:
-        if (self.startColor[0] < self.endColor[1]):
+        if (self.startColor[0] < self.endColor[0]):
             self.increaseOrDecrease[0] = True
         else:
             self.increaseOrDecrease[0] = False
@@ -41,9 +41,6 @@ class Gradient:
         #     else:
         #         self.increaseOrDecrease[i] = False
 
-
-
-    
     def linear_normal(self, x):
         return x * self.m
 
