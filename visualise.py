@@ -13,13 +13,14 @@ from circle import Circle
 from gradient import Gradient
 from statistics import Stats
 from layer import Layer
+import numpy as np 
 
 class Visualise:
-    def __init__(self, frame_amount, data, original_song) -> None:
+    def __init__(self, frame_amount, data) -> None:
         
         self.frame_amount = frame_amount # Stores the amount of frames needed.
         self.data = data # Stores the data of the sone (typically the scaled data).
-        self.original_song = original_song # Store the original data just in case.
+        #self.original_song = original_song # Store the original data just in case.
         self.export_path = os.path.join('video') # The path to export the video to.
         self.frames = [] # The frame addresses.
 
@@ -66,41 +67,60 @@ class Visualise:
             return False
 
     def create_layers(self, data):
+        """ There are type main types of layer
+                - Background layer -> Just a backgground.
+                - Frequency Point layer -> A circle.
         """
-        Each layer must have the following properties:
-        - 2D Array of points.
-        - A Gradient.
-
-        """
-        # Background Layer:
-        # This layer will change colours based on audio.
-        background_gradient = Gradient(
-            startColor=(32, 121, 122), 
-            endColor=(62, 198, 199), 
-            isVerticle=False, 
-            distance=255
-        ) # NOTE: We are just animating a solid colour here in distance of 255.
         
+        """ Background layer"""
+        back_g = Gradient(
+            startColor=(0, 187, 217),
+            endColor=(205, 140, 199),
+            isVerticle=True,
+            distance=300
+        ) # Create the gradient.
+
+        # Create the gradient's necesarry values TODO: Include these in the constructor.
+        back_g.cacl_increase()
+        back_g.obtainM()
+        
+        # Create the background layer:
         background_layer = Layer(
-            gradient=background_gradient,
+            gradient=back_g,
             draw_points=None,
             type='back',
+            size=300 
+        )
+
+        """ Circle Layer """
+        # Create the gradient of the circle:
+        circle_g = Gradient(
+            startColor=(0, 255, 255),
+            endColor=(0, 255, 0),
+            isVerticle=True,
+            distance=60
+        )
+        circle_g.cacl_increase()
+        circle_g.obtainM()
+
+        # Create a circle:
+        c = Circle(radius=60)
+        circles = np.array(c.get_circles())
+
+        # Create the circle Layer:
+        circle_layer = Layer(
+            gradient=circle_g,
+            draw_points=circles,
+            type='circle',
             size=300
         )
 
-        # Circle Layer:
-        # This layer will display a circle, where the G value changes based on audio.
-        # Create the gradient:
-        circle_gradient = Gradient(startColor=(255, 0, 26), endColor=(205, 0, 255), isVerticle=True, distance=(60))
-        circle_gradient.cacl_increase()
-        circle_gradient.obtainM()
-
-        # Create the frame:
-        frame, draw = self.create_frame()
-        frame_size = 300 
-
+        """ Return the data """
+        layers = []
+        layers.append(background_layer)
+        layers.append(circle_layer)
        
-        return background_layer
+        return layers
 
     def create_frames(self,frames, data):
         """This function creates all individual frames for the visuals and stores in the video directory.
@@ -124,54 +144,67 @@ class Visualise:
         for i in range(0, frames): 
             self.handle_progress(curr_frame=i)
 
+            """ Create the parent frame """
             # Create a frame:
-            frame = self.create_frame()
+            frame = Image.new('RGB', (300, 300), (0, 0, 0))
+            draw = ImageDraw.Draw(frame)
             frame_size = 300 # Holder: TODO: Make this define the size of the frame.
             
-
-
-            """
-            
-
-            # Create a circle:
-            c = Circle(radius=60)
-            circles = c.get_circles()
-
-            # Create a gradient:
-            g = Gradient(startColor=(255, 0, 26), endColor=(205, 0, 255), isVerticle=True, distance=(60))
-            g.cacl_increase()
-            g.obtainM()
-
-            # Animate a Value:
-            # Obtain a new green value:
-            green = self.animate_val(curr_RGB=x, new_x=data[sample_index])
-            x = green # Re-instante the current RGB value.
-            
-            # Add to statistics values:
-        
-            self.smooth_colour_values.append(green)
-            self.scaled_sample_value_at_color.append(data[i])
-
-            # Loop through the circles to draw the gradient circle:
-            for r, circle in enumerate(circles):
-
-                # Calculate of value of the circles ring (layer).
-                color = g.calculate_color(x_coord=r, y_coord=0)
-
-                # Check to ensure the sample index isn't greater than total samples:
-                if (sample_index > len(data)):
-                    sample_index = len(data) - 1
-
-                # Get G value:
-                color[1] = int(green)
-                t_color = tuple(color)
-
-                # Index through the points in the circle to draw.
-                for p in circle:
-                    draw.point((int(frame_size/2+p[0]), int(frame_size/2+p[1])), t_color)
+            """ Draw the points on the frame with the appropriate colours"""
+            # NOTE: This is where the animation and transformations should occur through passing in a value.
+            # Render the frames:
+            # TODO: Try and improve the speed of this.
 
             """
+            What I'm thinking is, instead of having draw functions in the layer,
+            It would make more sense for the drawing 'rendering' of the layers to be in the same place 
+            as wehere everything else renders.  
 
+            This means that a layer must store things such as points, types, colours and how
+            it changes over time.
+
+            What this also means, is that each layers pixel should be done at the same time.
+
+            Even potentially blending each colour at the same time.
+
+            It is late when writing this comment, so who knows.
+
+            However, this could be a direction to look at when improving the speed of the algorithm,
+            
+            """
+
+
+
+            rendered_layers = []
+            for layer in layers:
+                render = layer.draw_layer(anim_value=0)
+                rendered_layers.append(render)
+
+            """Combine all the layers into one"""
+            for y in range(0, frame.height):
+                for x in range(0, frame.width):
+                    
+                    """This is where my not so good method of colour blending comes into play"""
+                    # NOTE: Should probably make a function to blend the colours.
+                    # For each pixel we need to get the pixel of each layer and store in a list:
+                    pixels = []
+                    for layer in rendered_layers:
+                        pixels.append(layer.getpixel((x, y)))
+
+                    r_total = 0
+                    g_total = 0
+                    b_total = 0
+
+                    # Then we ned to toal this all up:
+                    for pixel in pixels:
+                        r_total = (r_total + pixel[0])
+                        g_total = (g_total + pixel[1])
+                        b_total = (b_total + pixel[2])
+
+                    final_pixel = (r_total, g_total, b_total)
+                    frame.putpixel((x, y), final_pixel)
+
+            """ Save the Frame """
             # Save the frame and append to the list: 
             name = str(i) + '.jpg'
             frame.save(os.path.join(self.export_path, name))

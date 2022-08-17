@@ -28,11 +28,13 @@ def create_layers(data):
     - A Gradient.
 
     """
+
+    
     # Background Layer:
     # This layer will change colours based on audio.
     g = Gradient(startColor=(0, 187, 217), endColor=(205, 140, 199), isVerticle=True, distance=255)
     g.cacl_increase()
-    g.obtainM()
+    g.obtainM() 
 
     background_layer = Layer(
         gradient=g,

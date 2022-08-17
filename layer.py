@@ -23,7 +23,7 @@ class Layer:
         return frame_return
 
     def draw_circle(self):
-        print('Draw Circle')
+        #print('Draw Circle')
 
         for r, circle in enumerate(self.draw_points):
             # Calculate the color of the circles ring:
@@ -38,7 +38,7 @@ class Layer:
         
 
     def draw_background(self) -> Image:
-        print('back')
+        #print('back')
         for y in range(0, self.size):
             for x in range(0, self.size):
                 color = self.gradient.calculate_color(x_coord=y, y_coord=0)
