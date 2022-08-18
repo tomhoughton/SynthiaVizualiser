@@ -172,9 +172,7 @@ class Visualise:
             However, this could be a direction to look at when improving the speed of the algorithm,
             
             """
-
-
-
+            
             rendered_layers = []
             for layer in layers:
                 render = layer.draw_layer(anim_value=0)

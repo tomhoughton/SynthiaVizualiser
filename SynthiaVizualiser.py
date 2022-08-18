@@ -4,6 +4,7 @@ from turtle import color
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+import time
 
 # My imports:
 from gradient import Gradient
@@ -52,9 +53,14 @@ def main():
     """ 
     How can we go about creating the statistics:
     """
+    start_time = time.time() # Store the time at which rendering started.
+    
     visualise.create_frames(visualise.frame_amount, my_song.scaled_data)
     smooth_val, song_val = visualise.write_video()
     
+    time_to_compute = time.time() - start_time
+
+    print("--- %s seconds ---" % (time_to_compute))
     plt.plot(smooth_val, color='green')
     plt.plot(song_val, color='red')
     plt.show()
