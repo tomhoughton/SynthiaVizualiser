@@ -155,6 +155,7 @@ class Visualise:
             # Render the frames:
             # TODO: Try and improve the speed of this.
 
+            #NOTE
             """
             What I'm thinking is, instead of having draw functions in the layer,
             It would make more sense for the drawing 'rendering' of the layers to be in the same place 
@@ -172,7 +173,7 @@ class Visualise:
             However, this could be a direction to look at when improving the speed of the algorithm,
             
             """
-            
+
             rendered_layers = []
             for layer in layers:
                 render = layer.draw_layer(anim_value=0)
