@@ -10,7 +10,7 @@ class Animate:
         self.anim_type = anim_type
         self.current_value = 0
 
-    def anim(self, x, prev_value):
+    def anim(self, x):
         # This function will return a new RGB value dependant on whether is is greater or equal to previous.
 
         # Calculate new value:
@@ -18,6 +18,7 @@ class Animate:
 
         # Compare:
         if new_val > self.current_value:
+            self.current_value = new_val
             return new_val
         else:
             decrease = self.current_value - 2

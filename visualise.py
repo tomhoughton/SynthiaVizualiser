@@ -178,7 +178,7 @@ class Visualise:
             # So we need to pass the anim value as that new value in range of 0 - 255
             rendered_layers = []
             for layer in layers:
-                render = layer.draw_layer(anim_value=0)
+                render = layer.draw_layer(anim_value=data[sample_index])
                 rendered_layers.append(render)
 
             """Combine all the layers into one"""
