@@ -174,6 +174,8 @@ class Visualise:
             
             """
 
+            # At each frame, the colours (pixels) are decided here,
+            # So we need to pass the anim value as that new value in range of 0 - 255
             rendered_layers = []
             for layer in layers:
                 render = layer.draw_layer(anim_value=0)
