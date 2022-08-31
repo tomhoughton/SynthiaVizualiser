@@ -28,7 +28,7 @@ class Layer:
         for r, circle in enumerate(self.draw_points):
             # Calculate the color of the circles ring:
             color = self.gradient.calculate_color(x_coord=r, y_coord=0)
-
+            
             for p in circle:
                 self.draw.point((int(self.size/2+p[0]), int(self.size/2+p[1])), tuple(color))
 

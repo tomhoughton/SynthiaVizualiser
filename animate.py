@@ -8,9 +8,21 @@ class Animate:
         """
 
         self.anim_type = anim_type
+        self.current_value = 0
 
-    def anim(self, x):
-        print('anim')
+    def anim(self, x, prev_value):
+        # This function will return a new RGB value dependant on whether is is greater or equal to previous.
+
+        # Calculate new value:
+        new_val = self.expo_increase(x = x)
+
+        # Compare:
+        if new_val > self.current_value:
+            return new_val
+        else:
+            decrease = self.current_value - 2
+            self.current_value = decrease
+            return decrease
 
     def expo_increase(self, x):
         h = 58.1392623
