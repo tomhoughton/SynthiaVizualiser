@@ -95,8 +95,6 @@ def get_frames(frames, data, increase_count, increase_val):
         # Baso, I just want to get value x, if x is bigger than current x, replace.
         # If x is lower than current x, x - 1
  
- 
- 
         if (data[sample_index] > x):
             x = data[sample_index]
             increase_count += 1
