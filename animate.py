@@ -19,11 +19,11 @@ class Animate:
         # Compare:
         if new_val > self.current_value:
             self.current_value = new_val
-            return new_val
+            return int(new_val)
         else:
             decrease = self.current_value - 2
-            self.current_value = decrease
-            return decrease
+            self.current_value = int(decrease)
+            return int(decrease)
 
     def expo_increase(self, x):
         h = 58.1392623
