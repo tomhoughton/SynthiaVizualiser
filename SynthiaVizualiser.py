@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import time
 
 # My imports:
-from gradient import Gradient
+from gradient_cls import Gradient
 from circle import Circle
 from Song import Song
 from visualise import Visualise
