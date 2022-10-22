@@ -1,14 +1,21 @@
 # Imports:
 import os
+import PIL.Image, PIL.ImageDraw
 
 
 def gradient_test():
     print('Gradient Test')
 
+    width, height = (1000, 1000)
+
+    img = PIL.Image.new("RGB", (width, height), (10, 10, 10))
     
+    for y in range(0, height):
+        for x in range(0, width):
+            color = (255, 0, 0)
+            img.putpixel((x, y), color)
 
-
-
+    img.show()
 
 
 def circle_test():
@@ -57,3 +64,5 @@ def main():
     usr = int(input('Select the song you would like to use'))
     
     
+if __name__ == "__main__": 
+    main()
