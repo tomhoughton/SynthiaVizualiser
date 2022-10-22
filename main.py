@@ -11,7 +11,7 @@ import cv2
 import time
 
 # My imports:
-from gradient import Gradient
+from gradient_cls import Gradient
 from circle import Circle
 
 """

@@ -1,6 +1,6 @@
 from calendar import c
 from PIL import Image
-from gradient import Gradient
+from gradient_cls import Gradient
 
 def red_change(row):
     m = 1.275

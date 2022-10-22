@@ -10,7 +10,7 @@ from turtle import circle
 import cv2
 from PIL import Image, ImageDraw
 from circle import Circle
-from gradient import Gradient
+from gradient_cls import Gradient
 from statistics import Stats
 from layer import Layer
 import numpy as np 

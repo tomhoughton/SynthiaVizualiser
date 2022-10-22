@@ -1,4 +1,4 @@
-from gradient import Gradient
+from gradient_cls import Gradient
 from PIL import Image, ImageDraw
 from animate import Animate
 
