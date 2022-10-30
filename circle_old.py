@@ -5,13 +5,12 @@ Bresenham complete circle algorithm [1]
 Original Code was modified, the original code can be found here: https://www.daniweb.com/programming/software-development/threads/321181/python-bresenham-circle-arc-algorithm 
 
 """
-from PIL import ImageDraw
+
+import PIL.Image, PIL.ImageDraw
 
 class Circle:
-    def __init__(self, radius, img) -> None:
-        self.radius = radius # This stands for the amount of layers.
-        self.draw = ImageDraw.Draw(img)
-        self.draw.point()
+    def __init__(self, radius) -> None:
+        self.radius = radius
         pass
 
     def create_circle_outline(self):
@@ -48,4 +47,21 @@ class Circle:
                 y = y - 1
             x = x + 1
         return points
+    
+    def get_circle(self, c_width, c_height):
+        size = 100
+        radius = 40
+        # circle_graph = PIL.Image.new("RGB", (size, size), (0,0,0))
+        # draw = PIL.ImageDraw.Draw(circle_graph)
+        p = self.create_circle_outline()
+        return p
 
+    def get_circles(self):
+        circles = []
+        for r in range(0, self.radius):
+            new_c = Circle(r)
+            circle_points = new_c.get_circle(50, 50)
+            circles.append(circle_points)
+
+        return circles
+         

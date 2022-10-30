@@ -1,6 +1,6 @@
 # Imports:
 import os
-import PIL.Image, PIL.ImageDraw
+from PIL import Image, ImageDraw
 from gradient import Gradient # Import Gradient.
 
 def gradient_test():
@@ -21,7 +21,28 @@ def gradient_test():
 
 
 def circle_test():
-    print('Circle test')
+    # Create a circle:
+
+    w, h = 220, 220
+    shape = [(40, 40), (w - 10, h - 10)]
+    
+    # creating new Image object
+    img = Image.new("RGB", (w, h), (0, 255, 0))
+    
+    # create ellipse image
+    img1 = ImageDraw.Draw(img)  
+    img1.ellipse(shape, fill=(255, 0, 0), outline ="red")
+    
+    # Get the image pixels:
+    for i in range(0, w): # We can get the pixels here.
+        for z in range(0, h):
+            print(img.getpixel((i, z)))
+    
+    img.show()
+
+
+
+
 
 
 def circle_anim_test():

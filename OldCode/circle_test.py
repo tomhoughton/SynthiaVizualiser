@@ -1,7 +1,7 @@
 from turtle import circle
 from PIL import Image, ImageDraw
-from circle import Circle
-from gradient import Gradient
+from circle_old import Circle
+from gradient_cls import Gradient
 
 def main():
 

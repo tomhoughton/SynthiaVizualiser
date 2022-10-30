@@ -24,8 +24,6 @@ class Gradient:
         return [m1, m2, m3] # Return gradient change for RGB.
 
 
-
-    
     def calculate_color_at_x(self, x: int) -> tuple:
         
         # We need to return an RGB value for each distance:
