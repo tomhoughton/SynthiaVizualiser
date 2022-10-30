@@ -1,18 +1,20 @@
 # Imports:
 import os
 import PIL.Image, PIL.ImageDraw
-
+from gradient import Gradient # Import Gradient.
 
 def gradient_test():
-    print('Gradient Test')
+    # Create a new Gradient Object:
+    g = Gradient((190, 147, 197), (123, 198, 204), 1000)
+    # NOTE: The distance will be the 'height: y' of the image.
 
-    width, height = (1000, 1000)
+    width, height = (1000, 1000) # Store the width and height of the image.
 
     img = PIL.Image.new("RGB", (width, height), (10, 10, 10))
     
     for y in range(0, height):
         for x in range(0, width):
-            color = (255, 0, 0)
+            color = g.calculate_color_at_x(y)
             img.putpixel((x, y), color)
 
     img.show()

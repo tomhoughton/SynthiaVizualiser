@@ -103,7 +103,7 @@ print(chroma)
 
 
 
-from gradient import Gradient
+from gradient_cls import Gradient
 
 g = Gradient(startColor=(76, 163, 217), endColor=(205, 255, 199), isVerticle=True, distance=200)
 
