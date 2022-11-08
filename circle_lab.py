@@ -1,7 +1,7 @@
 # Imports:
 from layer import Layer
 from gradient_cls import Gradient
-from circle import Circle
+from circle_old import Circle
 import numpy as np 
 from PIL import Image, ImageDraw
 
