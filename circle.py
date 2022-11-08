@@ -6,13 +6,15 @@ Original Code was modified, the original code can be found here: https://www.dan
 
 """
 from PIL import Image, ImageDraw
+import numpy as np
 
 class Circle:
-    def __init__(self, radius, img) -> None:
+    def __init__(self, radius, img_arr, height, width, cx, cy) -> None:
         self.radius = radius # This stands for the amount of layers.
-        self.img = Image.new("RGB", (1000,  1000))
-        self.draw = ImageDraw.Draw(self.img)
-        self.points = set() # Create a set to store circle points
+        self.data = np.zeros((height, width)) # Create an empty 2d array with same dimensions as the image:
+        self.cx = cx # Circle Center X.
+        self.cy = cy # Circle Center Y.
+        
         pass
 
     def create_circle_outline(self, radius):
@@ -26,21 +28,21 @@ class Circle:
         # first quarter/octant starts clockwise at 12 o'clock
         while x <= y:
             # first quarter first octant
-            self.draw.putpixel((x,-y), (255, 0, 0))
+            self.data[self.cx + x, self.cy - y] = (255, 0, 0)
             # first quarter 2nd octant
-            self.draw.putpixel((y,-x), (255, 0, 0))
+            self.data[self.cy + y, self.cx -x ] = (255, 0, 0)
             # second quarter 3rd octant
-            self.draw.putpixel((y,x), (255, 0, 0))
+            self.data[self.cy + y, self.cx + x] = (255, 0, 0)
             # second quarter 4.octant
-            self.draw.putpixel((x,y), (255, 0, 0))
+            self.data[self.cx + x, self.cy + y] = (255, 0, 0)
             # third quarter 5.octant
-            self.draw.putpixel((-x,y), (255, 0, 0))        
+            self.data[self.cx - x, self.cy + y] = (255, 0, 0)        
             # third quarter 6.octant
-            self.draw.putpixel((-y,x), (255, 0, 0))
-            # fourth quarter 7.octant
-            self.draw.putpixel((-y,-x), (255, 0, 0))
+            self.data[self.cy - y, self.cx + x] = (255, 0, 0)
+            # fourth quarter 7.octantb
+            self.data[self.cy - y,self.cx - x] = (255, 0, 0)
             # fourth quarter 8.octant
-            self.draw.putpixel((-x,-y), (255, 0, 0))
+            self.data[self.cx - x, self.cy - y] = (255, 0, 0)
 
             if switch < 0:
                 switch = switch + (4 * x) + 6
@@ -48,16 +50,44 @@ class Circle:
                 switch = switch + (4 * (x - y)) + 10
                 y = y - 1
             x = x + 1
-
-        
     
-    def draw_circle(self):
+
+    def circleBres(self):
+        x = 0
+        y = self.radius
+        d = 3 - (2 * self.radius)
+        
+        # DRAW:
+        self.draw(self.cx, self.cy, x, y)
+        while y >= x:
+            # For each pixel, 8 will be drawn:
+            x += 1
+
+            # Check for desicion parameter:
+            if d > 0:
+                y -= 1
+                d = d + 4 * (x - y) + 10
+            else:
+                d = d + 4 * x + 6
+
+            # Place the pixel:
+            self.draw(self.cx, self.cy, x, y)
+            
+    def draw(self, cx, cy, x, y):
+        self.data[cx + x, cy + y] = [255, 0, 0]
+        self.data[cx - x, cy + y] = [255, 0, 0]
+        self.data[cx + x, cy - y] = [255, 0, 0]
+        self.data[cx - x, cy - y] = [255, 0, 0]
+        self.data[cx + y, cy + x] = [255, 0, 0]
+        self.data[cx - y, cy + x] = [255, 0, 0]
+        self.data[cx + y, cy - x] = [255, 0, 0]
+        self.data[cx - y, cy - x] = [255, 0, 0]           
+
+    
+    def create_circle(self):
         for i in range(1, self.radius):
             self.create_circle_outline(i)
 
-        # We need a way to add points to the image draw.
-        # What I really mean is, we need to find a way to add an image draw to an image.
-        self.draw.show()
-        return self.points
+        return self.data
     
     

@@ -27,10 +27,17 @@ def circle_test():
     # Create an image:
     width, height = (1000, 1000) # Store the width and height of the image.
     img = Image.new("RGB", (1000, 1000), (0, 0, 255))
+    img_arr = np.asarray(img)
+    
+    c = Circle(10, img_arr, height, width, width / 2, height / 2)
+    c.circleBres()
+    c_points = c.data
 
-    c = Circle(10, img)
-    draw = c.draw_circle()
+    for y in range(0, height):
+        for x in range(0, width):
+            img.putpixel((x, y), tuple(c_points[y, x]))
 
+    img.show()
 
 def circle_anim_test():
     
@@ -39,9 +46,6 @@ def circle_anim_test():
     fps = 60
     length = 60 # In seconds:
     test_data = np.zeros(fps * length)
-
-    
-
 
 
 

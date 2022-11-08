@@ -39,7 +39,7 @@ circle_graph = PIL.Image.new("RGB", (size, size), (0,0,0))
 draw = PIL.ImageDraw.Draw(circle_graph)
 p = circle(radius)
 # print the point coords
-
+# size/2+
 for point in p:
-    draw.point((size/2+point[0],size/2+point[1]),(255,255,255))
+    draw.point((point[0],point[1]),(255,255,255))
 circle_graph.show()
