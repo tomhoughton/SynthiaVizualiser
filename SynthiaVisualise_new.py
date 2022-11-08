@@ -3,6 +3,8 @@ import os
 from PIL import Image, ImageDraw
 from gradient import Gradient # Import Gradient.
 from circle import Circle
+import random 
+import numpy as np
 
 def gradient_test():
     # Create a new Gradient Object:
@@ -31,7 +33,15 @@ def circle_test():
 
 
 def circle_anim_test():
-    print('Circle Anime test')
+    
+    # Firstly we need to create the animation logic:
+    # Create an array of random numbers:
+    fps = 60
+    length = 60 # In seconds:
+    test_data = np.zeros(fps * length)
+
+    
+
 
 
 
