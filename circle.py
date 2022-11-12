@@ -9,85 +9,58 @@ from PIL import Image, ImageDraw
 import numpy as np
 
 class Circle:
-    def __init__(self, radius, img_arr, height, width, cx, cy) -> None:
-        self.radius = radius # This stands for the amount of layers.
-        self.data = np.zeros((height, width)) # Create an empty 2d array with same dimensions as the image:
-        self.cx = cx # Circle Center X.
-        self.cy = cy # Circle Center Y.
-        
+    def __init__(self, radius) -> None:
+        self.radius = radius
         pass
 
-    def create_circle_outline(self, radius):
+    def create_circle_outline(self):
         """ [1] """
 
         "Bresenham complete circle algorithm in Python"
         # init vars
-        switch = 3 - (2 * radius)
+        switch = 3 - (2 * self.radius)
+        points = set()
         x = 0
         y = self.radius
         # first quarter/octant starts clockwise at 12 o'clock
         while x <= y:
             # first quarter first octant
-            self.data[self.cx + x, self.cy - y] = (255, 0, 0)
+            points.add((x,-y))
             # first quarter 2nd octant
-            self.data[self.cy + y, self.cx -x ] = (255, 0, 0)
+            points.add((y,-x))
             # second quarter 3rd octant
-            self.data[self.cy + y, self.cx + x] = (255, 0, 0)
+            points.add((y,x))
             # second quarter 4.octant
-            self.data[self.cx + x, self.cy + y] = (255, 0, 0)
+            points.add((x,y))
             # third quarter 5.octant
-            self.data[self.cx - x, self.cy + y] = (255, 0, 0)        
+            points.add((-x,y))        
             # third quarter 6.octant
-            self.data[self.cy - y, self.cx + x] = (255, 0, 0)
-            # fourth quarter 7.octantb
-            self.data[self.cy - y,self.cx - x] = (255, 0, 0)
+            points.add((-y,x))
+            # fourth quarter 7.octant
+            points.add((-y,-x))
             # fourth quarter 8.octant
-            self.data[self.cx - x, self.cy - y] = (255, 0, 0)
-
+            points.add((-x,-y))
             if switch < 0:
                 switch = switch + (4 * x) + 6
             else:
                 switch = switch + (4 * (x - y)) + 10
                 y = y - 1
             x = x + 1
+        return points
     
+    def get_circle(self, c_width, c_height):
+        size = 100
+        radius = 40
+        # circle_graph = PIL.Image.new("RGB", (size, size), (0,0,0))
+        # draw = PIL.ImageDraw.Draw(circle_graph)
+        p = self.create_circle_outline()
+        return p
 
-    def circleBres(self):
-        x = 0
-        y = self.radius
-        d = 3 - (2 * self.radius)
-        
-        # DRAW:
-        self.draw(self.cx, self.cy, x, y)
-        while y >= x:
-            # For each pixel, 8 will be drawn:
-            x += 1
+    def get_circles(self):
+        circles = []
+        for r in range(0, self.radius):
+            new_c = Circle(r)
+            circle_points = new_c.get_circle(50, 50)
+            circles.append(circle_points)
 
-            # Check for desicion parameter:
-            if d > 0:
-                y -= 1
-                d = d + 4 * (x - y) + 10
-            else:
-                d = d + 4 * x + 6
-
-            # Place the pixel:
-            self.draw(self.cx, self.cy, x, y)
-            
-    def draw(self, cx, cy, x, y):
-        self.data[cx + x, cy + y] = [255, 0, 0]
-        self.data[cx - x, cy + y] = [255, 0, 0]
-        self.data[cx + x, cy - y] = [255, 0, 0]
-        self.data[cx - x, cy - y] = [255, 0, 0]
-        self.data[cx + y, cy + x] = [255, 0, 0]
-        self.data[cx - y, cy + x] = [255, 0, 0]
-        self.data[cx + y, cy - x] = [255, 0, 0]
-        self.data[cx - y, cy - x] = [255, 0, 0]           
-
-    
-    def create_circle(self):
-        for i in range(1, self.radius):
-            self.create_circle_outline(i)
-
-        return self.data
-    
-    
+        return circles
